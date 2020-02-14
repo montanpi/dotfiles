@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Light theme
+GTK_THEME=Adwaita
+# Dark theme
+GTK_DARK_THEME=Adwaita-dark
+# Alternative theme
+GTK_ALT_THEME=Numix-Frost
+
+# User prompt
+PS1='[\u@\h \W]\$ '
+
+# Root user prompt
+#PS1='[\[\e[31m\]\u\[\e[0m\]@\h \W]\$ '
+
+# Default programs
+BROWSER=/usr/bin/chromium
+EDITOR=/usr/bin/vim
+
+# History parameters
+HISTFILESIZE=10000
+HISTSIZE=100000
+HISTCONTROL=ignoreboth:erasedups
+
+# Set path variable for Go
+GOPATH=$HOME/Code/go
+
+# Set path for fonts-config
+XDG_CONFIG_HOME=$HOME/.config
+
+# Avoid Warning: Missing charsets in String to FontSet conversion
+LC_ALL=C
+

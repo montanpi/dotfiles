@@ -1,0 +1,48 @@
+#! /bin/sh
+
+node_id=$1
+class=$2
+instance=$3
+monitor=$(xrandr | grep '\*' | awk '{print $1}')
+m_width=$(echo "$monitor" | awk -F x '{print $1}')
+m_height=$(echo "$monitor" | awk -F x '{print $2}')
+window=$(xdotool getwindowgeometry "$node_id" | grep 'Geometry' | awk '{print $2}')
+w_width=$(echo "$window" | awk -F x '{print $1}')
+w_height=$(echo "$window" | awk -F x '{print $2}')
+border_width=$(bspc config border_width)
+top_padding=$(bspc config top_padding)
+right_padding=$(bspc config right_padding)
+bottom_padding=$(bspc config bottom_padding)
+left_padding=$(bspc config left_padding)
+window_gap=$(bspc config window_gap)
+floats=$(bspc query -T -d | grep -o '"state":"floating"' | wc -l)
+window_spacing=24
+spacing_factor=$((window_spacing * (floats / 4)))
+
+case $class in
+  "Xfce4-panel");;
+  "Xfdesktop");;
+  "Gimp-2.10");;
+  *)
+    case $((floats % 4)) in
+      0)
+	xdotool windowmove "$node_id" $((spacing_factor + window_gap + left_padding)) \
+	  $((spacing_factor + window_gap + top_padding))
+	;;
+      1)
+	xdotool windowmove "$node_id" $((m_width - w_width - spacing_factor - (border_width * 2) - window_gap - right_padding)) \
+	$((m_height - w_height - spacing_factor - (border_width * 2) - window_gap - bottom_padding))
+	;;
+      2)
+	xdotool windowmove "$node_id" $((m_width - w_width - spacing_factor - (border_width * 2) - window_gap - right_padding)) \
+	  $((spacing_factor + window_gap + top_padding))
+	;;
+      3)
+	xdotool windowmove "$node_id" $((spacing_factor + window_gap + left_padding)) \
+	$((m_height - w_height - spacing_factor - (border_width * 2) - window_gap - bottom_padding))
+	;;
+      *);;
+      esac
+    ;;
+esac
+

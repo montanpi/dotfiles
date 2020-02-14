@@ -1,0 +1,7 @@
+#!/bin/sh
+
+ID=$(bspc query -N -n focused) 
+bspc node "$ID" -g hidden
+bspc node "$ID" -t floating
+bspc node "$ID" -c
+

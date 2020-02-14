@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ID=$(bspc query -N -n .hidden | head -n1)
+bspc node "$ID" -g hidden=off
+bspc node -f "$ID"
+
